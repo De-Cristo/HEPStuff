@@ -1,0 +1,46 @@
+<initrwgt>
+<weightgroup name='scale_variation' combine='envelope' >
+<weight id='1001'> lhapdf=92000 renscfact=1d0 facscfact=1d0 </weight>
+<weight id='1002'> lhapdf=92000 renscfact=1d0 facscfact=2d0 </weight>
+<weight id='1003'> lhapdf=92000 renscfact=1d0 facscfact=0.5d0 </weight>
+<weight id='1004'> lhapdf=92000 renscfact=2d0 facscfact=1d0 </weight>
+<weight id='1005'> lhapdf=92000 renscfact=2d0 facscfact=2d0 </weight>
+<weight id='1006'> lhapdf=92000 renscfact=2d0 facscfact=0.5d0 </weight>
+<weight id='1007'> lhapdf=92000 renscfact=0.5d0 facscfact=1d0 </weight>
+<weight id='1008'> lhapdf=92000 renscfact=0.5d0 facscfact=2d0 </weight>
+<weight id='1009'> lhapdf=92000 renscfact=0.5d0 facscfact=0.5d0 </weight>
+</weightgroup>
+<weightgroup name='PDF_variation1' combine='hessian' >
+<weight id='5000'> lhapdf=92000 </weight>
+<weight id='5001'> lhapdf=92001 </weight>
+<weight id='5002'> lhapdf=92002 </weight>
+<weight id='5003'> lhapdf=92003 </weight>
+<weight id='5004'> lhapdf=92004 </weight>
+<weight id='5005'> lhapdf=92005 </weight>
+<weight id='5006'> lhapdf=92006 </weight>
+<weight id='5007'> lhapdf=92007 </weight>
+<weight id='5008'> lhapdf=92008 </weight>
+<weight id='5009'> lhapdf=92009 </weight>
+<weight id='5010'> lhapdf=92010 </weight>
+<weight id='5011'> lhapdf=92011 </weight>
+<weight id='5012'> lhapdf=92012 </weight>
+<weight id='5013'> lhapdf=92013 </weight>
+<weight id='5014'> lhapdf=92014 </weight>
+<weight id='5015'> lhapdf=92015 </weight>
+<weight id='5016'> lhapdf=92016 </weight>
+<weight id='5017'> lhapdf=92017 </weight>
+<weight id='5018'> lhapdf=92018 </weight>
+<weight id='5019'> lhapdf=92019 </weight>
+<weight id='5020'> lhapdf=92020 </weight>
+<weight id='5021'> lhapdf=92021 </weight>
+<weight id='5022'> lhapdf=92022 </weight>
+<weight id='5023'> lhapdf=92023 </weight>
+<weight id='5024'> lhapdf=92024 </weight>
+<weight id='5025'> lhapdf=92025 </weight>
+<weight id='5026'> lhapdf=92026 </weight>
+<weight id='5027'> lhapdf=92027 </weight>
+<weight id='5028'> lhapdf=92028 </weight>
+<weight id='5029'> lhapdf=92029 </weight>
+<weight id='5030'> lhapdf=92030 </weight>
+</weightgroup>
+</initrwgt>
