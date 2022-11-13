@@ -1,4 +1,4 @@
-1. Varial同时需要ROOT和python2，这是上次和致源调试失败的原因，最简单的办法，**CMSSW_10_6_X**环境
+1. Varial同时需要ROOT和python2，这是通常调试失败的原因，最简单的办法，**CMSSW_10_6_X**环境
 2. 环境设置还是：https://github.com/De-Cristo/HEPStuff/blob/main/simple_varial/set-varial.sh
 3. CPU数量调用：https://github.com/De-Cristo/HEPStuff/blob/main/simple_varial/plot_cfg.py#L10 否则80%全部CPU核数
 4. 设置不需要删除原有地址并不需要重新读ntuple：https://github.com/De-Cristo/HEPStuff/blob/main/simple_varial/plot_cfg.py#L14
