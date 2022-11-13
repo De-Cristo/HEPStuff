@@ -2,6 +2,7 @@
 2. 环境设置还是：https://github.com/De-Cristo/HEPStuff/blob/main/simple_varial/set-varial.sh
 3. CPU数量调用：https://github.com/De-Cristo/HEPStuff/blob/main/simple_varial/plot_cfg.py#L10 否则80%全部CPU核数
 4. 设置不需要删除原有地址并不需要重新读ntuple：https://github.com/De-Cristo/HEPStuff/blob/main/simple_varial/plot_cfg.py#L14
+- 可能要先删除./Plot（**not been tested**）
 5. 通过parallel实现ntuple->histo后，通过调用‘lazy function’利用已有的histograms进行画图或者做任何操作：https://github.com/De-Cristo/HEPStuff/blob/main/simple_varial/run_plot_from_tree.py#L229-L233
   - note: 在lazy function前修改histograms都会有效应用在后续画图等操作中
   - tool可以是None: https://github.com/De-Cristo/HEPStuff/blob/main/simple_varial/run_plot_from_tree.py#L231
