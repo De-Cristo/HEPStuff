@@ -33,11 +33,11 @@ ebeam2 6500d0     ! energy of beam 2
 ! 11082 CT10 Nf4
 ! 92000 PDF4LHC15 NLO, NF=4 
 
-! lhans1  92000      ! pdf set for hadron 1 (LHA numbering)
-! lhans2  92000      ! pdf set for hadron 2 (LHA numbering)
+lhans1  92000      ! pdf set for hadron 1 (LHA numbering)
+lhans2  92000      ! pdf set for hadron 2 (LHA numbering)
 
-lhans1  260000      ! pdf set for hadron 1 (LHA numbering)
-lhans2  260000      ! pdf set for hadron 2 (LHA numbering)
+! lhans1  260000      ! pdf set for hadron 1 (LHA numbering)
+! lhans2  260000      ! pdf set for hadron 2 (LHA numbering)
 
 bornktmin 1d0    ! Generation cut; minimum kt in underlying born
 #bornsuppfact 1d0 ! (default 0d0) switch for Born suppression factor. If < 0 suppfact = 1
@@ -68,7 +68,7 @@ testplots  1       ! (default 0, do not) do NLO and PWHG distributions
 #fakevirt   1      ! (default 0) if 1 use Born for virtuals
 
 iseed    SEED
-maxseeds 4999
+maxseeds 9999
 manyseeds  0       ! Used to perform multiple runs with different random
                    ! seeds in the same directory.
                    ! If set to 1, the program asks for an integer j;
