@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for mass in 60 80 100 120 125 130 140 160 180 200 250 300 350 400 450 500 600 700 800 900 1000 1200 1400 1600 1800 2000 2300 2600 2900 3200 3500;
+for mass in 60 80 90 95 100 105 110 120 125 130 140 160 180 200 250 300 350 400 450 500 600 700 800 900 1000 1100 1200 1400 1600 1800 2000 2300 2600 2900 3200 3500;
 do
     for hdampmode in "" 1 2;
     do
@@ -17,8 +17,8 @@ do
                 width=2.0
             fi
         
-#setup.sh  1: mass   2: channel: incl, t, b or tb # Combinations are (contrib-scale): incl-t/b/tb, t-t, b-b, tb-tb, t-tb, b-tb (!!!now t only)  3. width depending on mass  4. dampmode  5.hfactmode ???different between 4/5
-            ./setup.sh $mass t $width $hdampmode $hfactmode; 
+#setup.sh  1: mass   2: channel: incl, t, b or tb # Combinations are (contrib-scale): incl-t/b/tb, t-t, b-b, tb-tb, t-tb, b-tb (!!!now t only)  3. width depending on mass  4.hfactmode
+            ./setup.sh $mass t $width $hfactmode; 
         done;
     done;
 done;
