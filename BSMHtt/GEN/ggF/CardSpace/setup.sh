@@ -35,18 +35,12 @@ if [ "${hfactmode}" == 2 ]; then hfact=`awk "BEGIN {print 0.5*${hfact}}"`; fi
 
 echo "hfact set to: " $hfact
 
-hdamp=`awk "BEGIN {print ($mass+8.36)/4}"`
-if [ "${hdampmode}" == 1 ]; then hdamp=`awk "BEGIN {print 2*($mass+8.36)/4}"`; fi
-if [ "${hdampmode}" == 2 ]; then hdamp=`awk "BEGIN {print 0.5*($mass+8.36)/4}"`; fi
-
 workdir=$PWD/../
 template=$workdir/ggF_H_2HDM_template/
 massdir=$workdir/m${mass}_${contrib}
 
-if [[ "${hfactmode}" == 1 ]] && [["${hdampmode}" == 1]]; then massdir=$workdir/m${mass}_${contrib}_hfactUp_hdampUp; fi
-if [[ "${hfactmode}" == 1 ]] && [["${hdampmode}" == 2]]; then massdir=$workdir/m${mass}_${contrib}_hfactUp_hdampDown; fi
-if [[ "${hfactmode}" == 2 ]] && [["${hdampmode}" == 1]]; then massdir=$workdir/m${mass}_${contrib}_hfactDown_hdampUp; fi
-if [[ "${hfactmode}" == 2 ]] && [["${hdampmode}" == 2]]; then massdir=$workdir/m${mass}_${contrib}_hfactDown_hdampDown; fi
+if [[ "${hfactmode}" == 1 ]]; then massdir=$workdir/m${mass}_${contrib}_hfactUp; fi
+if [[ "${hfactmode}" == 2 ]]; then massdir=$workdir/m${mass}_${contrib}_hfactDown; fi
 
 echo "Copying files:"
 cp -v $template/pwg-rwl.dat $massdir
