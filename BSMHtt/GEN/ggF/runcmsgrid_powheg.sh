@@ -253,32 +253,32 @@ if [ "${process}" == "gg_H_2HDM" ]; then
     ../pwhg_main 2>&1 | tee logrew_${process}_${seed}_A_b.txt; test $? -eq 0 || fail_exit "pwhg_main error: exit code not 0" 
     mv pwgevents-rwgt.lhe pwgevents.lhe
 
-    # rweight H tb
-    sed -nir '/lhrwgt_id/!p;$alhrwgt_id '\''H_tb'\''' powheg.input
-    sed -nir '/notop/!p;$anotop 0' powheg.input 
-    sed -nir '/nobot/!p;$anobot 0' powheg.input
-    sed -nir '/higgstype/!p;$ahiggstype 2' powheg.input
-    sed -nir '/tanb/!p;$atanb 50' powheg.input
-    ../pwhg_main 2>&1 | tee logrew_${process}_${seed}_H_tb.txt; test $? -eq 0 || fail_exit "pwhg_main error: exit code not 0" 
-    mv pwgevents-rwgt.lhe pwgevents.lhe
+    # # rweight H tb
+    # sed -nir '/lhrwgt_id/!p;$alhrwgt_id '\''H_tb'\''' powheg.input
+    # sed -nir '/notop/!p;$anotop 0' powheg.input 
+    # sed -nir '/nobot/!p;$anobot 0' powheg.input
+    # sed -nir '/higgstype/!p;$ahiggstype 2' powheg.input
+    # sed -nir '/tanb/!p;$atanb 50' powheg.input
+    # ../pwhg_main 2>&1 | tee logrew_${process}_${seed}_H_tb.txt; test $? -eq 0 || fail_exit "pwhg_main error: exit code not 0" 
+    # mv pwgevents-rwgt.lhe pwgevents.lhe
 
-    # rweight H t-only
-    sed -nir '/lhrwgt_id/!p;$alhrwgt_id '\''H_t'\''' powheg.input
-    sed -nir '/notop/!p;$anotop 0' powheg.input 
-    sed -nir '/nobot/!p;$anobot 1' powheg.input
-    sed -nir '/higgstype/!p;$ahiggstype 2' powheg.input
-    sed -nir '/tanb/!p;$atanb 50' powheg.input
-    ../pwhg_main 2>&1 | tee logrew_${process}_${seed}_H_t.txt; test $? -eq 0 || fail_exit "pwhg_main error: exit code not 0" 
-    mv pwgevents-rwgt.lhe pwgevents.lhe
+    # # rweight H t-only
+    # sed -nir '/lhrwgt_id/!p;$alhrwgt_id '\''H_t'\''' powheg.input
+    # sed -nir '/notop/!p;$anotop 0' powheg.input 
+    # sed -nir '/nobot/!p;$anobot 1' powheg.input
+    # sed -nir '/higgstype/!p;$ahiggstype 2' powheg.input
+    # sed -nir '/tanb/!p;$atanb 50' powheg.input
+    # ../pwhg_main 2>&1 | tee logrew_${process}_${seed}_H_t.txt; test $? -eq 0 || fail_exit "pwhg_main error: exit code not 0" 
+    # mv pwgevents-rwgt.lhe pwgevents.lhe
 
-    # rweight H b-only
-    sed -nir '/lhrwgt_id/!p;$alhrwgt_id '\''H_b'\''' powheg.input
-    sed -nir '/notop/!p;$anotop 1' powheg.input 
-    sed -nir '/nobot/!p;$anobot 0' powheg.input
-    sed -nir '/higgstype/!p;$ahiggstype 2' powheg.input
-    sed -nir '/tanb/!p;$atanb 50' powheg.input
-    ../pwhg_main 2>&1 | tee logrew_${process}_${seed}_H_b.txt; test $? -eq 0 || fail_exit "pwhg_main error: exit code not 0" 
-    mv pwgevents-rwgt.lhe pwgevents.lhe
+    # # rweight H b-only
+    # sed -nir '/lhrwgt_id/!p;$alhrwgt_id '\''H_b'\''' powheg.input
+    # sed -nir '/notop/!p;$anotop 1' powheg.input 
+    # sed -nir '/nobot/!p;$anobot 0' powheg.input
+    # sed -nir '/higgstype/!p;$ahiggstype 2' powheg.input
+    # sed -nir '/tanb/!p;$atanb 50' powheg.input
+    # ../pwhg_main 2>&1 | tee logrew_${process}_${seed}_H_b.txt; test $? -eq 0 || fail_exit "pwhg_main error: exit code not 0" 
+    # mv pwgevents-rwgt.lhe pwgevents.lhe
     
 fi
 
