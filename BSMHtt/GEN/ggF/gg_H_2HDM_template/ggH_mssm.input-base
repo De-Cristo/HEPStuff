@@ -93,7 +93,6 @@ alpha XALPHAXd0      ! 0.785398163397448d0
 higgstype 1            ! 1:h, 2:H, 3:A
 hmass XHMASSXd0
 hwidth XHWIDTHXd0
-hdamp XHDAMPXd0     ! h parameter for hdamp function: 1/4 (mH+2mb)
 tanb XTANBXd0
 hfact XHFACTX
 nobot XNOBOTX
