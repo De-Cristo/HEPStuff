@@ -42,6 +42,8 @@ massdir=$workdir/m${mass}_${contrib}
 if [[ "${hfactmode}" == 1 ]]; then massdir=$workdir/m${mass}_${contrib}_hfactUp; fi
 if [[ "${hfactmode}" == 2 ]]; then massdir=$workdir/m${mass}_${contrib}_hfactDown; fi
 
+echo "creating directories"
+mkdir -p $massdir
 echo "Copying files:"
 cp -v $template/pwg-rwl.dat $massdir
 cp -v $template/ggH_mssm.input-* $massdir
