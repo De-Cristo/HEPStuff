@@ -5,7 +5,7 @@ hmass XHMASSXd0      ! mass of the HIggs boson [GeV]
 hwidth XHWIDTHXd0  ! width of the Higgs boson [GeV]
 hdamp XHDAMPXd0     ! h parameter for hdamp function: 1/4 (mH+2mb)
 
-hdecaymode -1    ! -1 no decay                
+hdecaymode -1   ! -1 no decay                
                 ! 0 all decay channels open
                 ! 1-6 d dbar, u ubar,..., t tbar 
                 ! 7-9 e+ e-, mu+ mu-, tau+ tau-
@@ -17,8 +17,8 @@ hdecaymode -1    ! -1 no decay
 
 ih1   1           ! hadron 1 (1 for protons, -1 for antiprotons)
 ih2   1           ! hadron 2 (1 for protons, -1 for antiprotons)
-ebeam1 6500d0     ! energy of beam 1
-ebeam2 6500d0     ! energy of beam 2
+ebeam1 6800d0     ! energy of beam 1
+ebeam2 6800d0     ! energy of beam 2
 
 ! To be set only if using 'native' pdfs
 !ndns1 131         ! pdf set for hadron 1 (mlm numbering)
@@ -33,11 +33,8 @@ ebeam2 6500d0     ! energy of beam 2
 ! 11082 CT10 Nf4
 ! 92000 PDF4LHC15 NLO, NF=4 
 
-lhans1  92000      ! pdf set for hadron 1 (LHA numbering)
-lhans2  92000      ! pdf set for hadron 2 (LHA numbering)
-
-! lhans1  260000      ! pdf set for hadron 1 (LHA numbering)
-! lhans2  260000      ! pdf set for hadron 2 (LHA numbering)
+lhans1  92000      ! pdf set for hadron 1 (LHA numbering) origin 260000
+lhans2  92000      ! pdf set for hadron 2 (LHA numbering) origin 260000
 
 bornktmin 1d0    ! Generation cut; minimum kt in underlying born
 #bornsuppfact 1d0 ! (default 0d0) switch for Born suppression factor. If < 0 suppfact = 1
