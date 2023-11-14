@@ -33,6 +33,9 @@ ebeam2 6800d0     ! energy of beam 2
 ! 11082 CT10 Nf4
 ! 92000 PDF4LHC15 NLO, NF=4 
 
+! lhans1  325500      ! pdf set for hadron 1 (LHA numbering) origin 260000
+! lhans2  325500      ! pdf set for hadron 2 (LHA numbering) origin 260000
+
 lhans1  92000      ! pdf set for hadron 1 (LHA numbering) origin 260000
 lhans2  92000      ! pdf set for hadron 2 (LHA numbering) origin 260000
 

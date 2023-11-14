@@ -15,7 +15,7 @@ if [ "$3" == 2 ]; then massdir=$workdir/m${mass}_down; mkdir -p $massdir; fi
 echo "Copying files:"
 # cp -v $template/pwg-rwl.dat $massdir
 cp -v $template/bbH.input-* $massdir
-# cp -v $template/JHUGen.input $massdir
+cp -v $template/JHUGen.input $massdir
 
 sed -i "s/XHMASSX/${mass}/g" $massdir/bbH.input-*
 sed -i "s/XHWIDTHX/${width}/g" $massdir/bbH.input-*
