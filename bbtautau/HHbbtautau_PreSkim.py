@@ -10,7 +10,7 @@ parser.add_argument('-i', '--input', required=False, type=str, default="/VBFHHto
 parser.add_argument('-o', '--output', required=False, type=str, default="./OutPut", help="output directory name")
 args = parser.parse_args()
 
-ROOT.gInterpreter.Declare('#include "./interface/HHbbtautau_PreSkim.h"')
+ROOT.gInterpreter.Declare('#include "./interface/HHbbtautau_PreSkim_jin_Gen.h"')
 ROOT.EnableImplicitMT(10)
 
 os.makedirs(args.output, exist_ok=True)
@@ -87,9 +87,11 @@ skim_branches = ["nGenParticle", "nGenTau", "nGenVisTau", "SelGenTauNutrino_numb
                  
                  "Leading_pT_GenVisTau_Idx",
                  
-                 "Mass_HTauTau_GenVisTau", "Mass_HTauTau_CA"
+                 "Mass_HTauTau_GenVisTau", "Mass_HTauTau_CA",
+
+                 "boostedTau_mass", "boostedTau_phi", "boostedTau_eta", "boostedTau_pt"
                 ]
 
-output_file = args.output + "/" + "HHbbtautau_PreSkim.root"
+output_file = args.output + "/" + "HHbbtautau_PreSkim_aaa.root"
 data_frame.Snapshot("Events", output_file, skim_branches)
 
