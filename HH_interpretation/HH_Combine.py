@@ -13,6 +13,26 @@ ggf_samples_data = [
     {"kl": 5.0, "kt": 1.0, "xs": 0.091172, "label": "ggHH_kl_5_kt_1"},
 ]
 
+vbf_samples_data = [
+    {"CV": 1.0, "C2V": 1.0, "kl": 0.0, "xs": 0.0046089, "label": "qqHH_CV_1_C2V_1_kl_0"},
+    {"CV": 1.0, "C2V": 1.0, "kl": 2.0, "xs": 0.0014228, "label": "qqHH_CV_1_C2V_1_kl_2"},
+    {"CV": 1.0, "C2V": 2.0, "kl": 1.0, "xs": 0.0142178, "label": "qqHH_CV_1_C2V_2_kl_1"},
+    {"CV": 0.5, "C2V": 1.0, "kl": 1.0, "xs": 0.0108237, "label": "qqHH_CV_0p5_C2V_1_kl_1"},
+    {"CV": 1.5, "C2V": 1.0, "kl": 1.0, "xs": 0.0660185, "label": "qqHH_CV_1p5_C2V_1_kl_1"},
+    {"CV": 1.0,     "C2V": 0.0,    "kl": 1.0,   "xs": 0.029320, "label": "CV_1_C2V_0_C3_1"},
+    {"CV": 1.0,     "C2V": 1.0,    "kl": 1.0,   "xs": 0.001906, "label": "CV_1_C2V_1_C3_1"},
+    {"CV": 1.0,     "C2V": 0.0,    "kl": 2.9,   "xs": 0.0191330, "label": "CV_0p4_C2V_1_C3_2p9"},
+    {"CV": 1.1,     "C2V": 1.0,    "kl": 0.2,   "xs": 0.0095458, "label": "CV_1p1_C2V_1_C3_0p2"},
+    {"CV": 1.74,    "C2V": 1.37,   "kl": 14.4,  "xs": 0.395400, "label": "CV-1p74_C2V-1p37_C3-14p4"},
+    {"CV": -0.012,  "C2V": 0.03,   "kl": 10.2,  "xs": 0.00001257, "label": "CV-m0p012_C2V-0p03_C3-10p2"},
+    {"CV": -0.758,  "C2V": 1.44,   "kl": -19.3,  "xs": 0.35500, "label": "CV-m0p758_C2V-1p44_C3-m19p3"},
+    {"CV": -0.962,  "C2V": 0.959,  "kl": -1.43, "xs": 0.00111, "label": "CV-m0p962_C2V-0p959_C3-m1p43"},
+    {"CV": -1.21,  "C2V": 1.94,  "kl": -0.94, "xs": 0.0033739, "label": "CV-m1p21_C2V-1p94_C3-m0p94"},
+    {"CV": -1.60,  "C2V": 2.72,  "kl": -1.36, "xs": 0.0105109, "label": "CV-m1p60_C2V-2p72_C3-m1p36"},
+    {"CV": -1.83,  "C2V": 3.57,  "kl": -3.39, "xs": 0.0149850, "label": "CV-m1p83_C2V-3p57_C3-m3p39"},
+    {"CV": -2.12,  "C2V": 3.87,  "kl": -5.96, "xs": 0.6322811, "label": "CV-m2p12_C2V-3p87_C3-m5p96"},
+]
+
 # We need at least 3 samples for the 3-operator basis (box, triangle, interf)
 MIN_SAMPLES = 3
 if len(ggf_samples_data) < MIN_SAMPLES:
@@ -117,79 +137,145 @@ def calculate_ggf_parameters(target_kl, samples_data, target_kt=1.0):
 
     return coeffs_target_values, predicted_xs_val, coeffs_expr_transposed, predicted_xs_expr
 
+def calculate_vbf_parameters(target_CV, target_C2V, target_kl, samples_data):
+    """
+    Calculates weights for qqHH (VBF) samples to match a target (CV, C2V, kl).
+    Uses 6-term basis from VBFFormula.
+
+    Args:
+        target_CV (float): Target CV coupling.
+        target_C2V (float): Target C2V coupling.
+        target_kl (float): Target kl coupling.
+        samples_data (list): List of dicts with 'CV', 'C2V', 'kl', 'xs', and 'label'.
+
+    Returns:
+        tuple: (weights, predicted_xs, symbolic_weights, symbolic_sigma)
+    """
+    n_samples = len(samples_data)
+    if n_samples < 6:
+        raise ValueError("Need at least 6 samples for VBF reweighting.")
+
+    # --- 1. Build the sample matrix M ---
+    M_list = []
+    for s in samples_data:
+        M_list.append([
+            s["CV"]**2 * s["kl"]**2,
+            s["CV"]**4,
+            s["C2V"]**2,
+            s["CV"]**3 * s["kl"],
+            s["CV"] * s["C2V"] * s["kl"],
+            s["CV"]**2 * s["C2V"],
+        ])
+    M = sympy.Matrix(M_list)
+
+    # --- 2. Build target vector c ---
+    CV_sym, C2V_sym, kl_sym = sympy.symbols("CV C2V kl")
+    c_expr = sympy.Matrix([
+        [CV_sym**2 * kl_sym**2],
+        [CV_sym**4],
+        [C2V_sym**2],
+        [CV_sym**3 * kl_sym],
+        [CV_sym * C2V_sym * kl_sym],
+        [CV_sym**2 * C2V_sym],
+    ])
+    c_target = c_expr.subs({CV_sym: target_CV, C2V_sym: target_C2V, kl_sym: target_kl})
+
+    # --- 3. Symbolic ¦Ò and weights ---
+    s_syms = [sympy.Symbol(f"xs{i}") for i in range(n_samples)]
+    s_vec = sympy.Matrix(s_syms)
+    xs_values = sympy.Matrix([s["xs"] for s in samples_data])
+
+    try:
+        M_pinv = M.pinv()
+    except Exception as e:
+        print("Error in matrix inversion:", e)
+        return None, None, None, None
+
+    coeffs_expr_T = c_expr.transpose() * M_pinv
+    coeffs_expr = coeffs_expr_T.transpose()
+
+    coeffs_vals_T = c_target.transpose() * M_pinv
+    coeffs_vals = [float(val.evalf()) for val in coeffs_vals_T]
+
+    sigma_expr = (coeffs_expr_T * s_vec)[0, 0]
+    sigma_val = float((coeffs_vals_T * xs_values)[0, 0].evalf())
+
+    return coeffs_vals, sigma_val, coeffs_expr, sigma_expr
 
 if __name__ == "__main__":
-    print("Available benchmark samples:")
-    for i, sample in enumerate(ggf_samples_data):
-        print(f"  Index {i}: kl={sample['kl']}, kt={sample['kt']}, xs={sample['xs']:.5f} ({sample['label']})")
+    print("=== HH Combine Reweighting Tool ===")
+    mode = input("Choose production mode [ggf/qqhh]: ").strip().lower()
 
-    while True:
-        try:
-            selected_indices_str = input(f"\nEnter the indices of the samples to use (comma-separated, need at least {MIN_SAMPLES}): ")
-            selected_indices = [int(idx.strip()) for idx in selected_indices_str.split(',')]
+    if mode == "ggf":
+        # Use GGF benchmarks
+        print("\nAvailable ggF benchmark samples:")
+        for i, sample in enumerate(ggf_samples_data):
+            print(f"  Index {i}: kl={sample['kl']}, kt={sample['kt']}, xs={sample['xs']:.5f} ({sample['label']})")
 
-            if len(selected_indices) < MIN_SAMPLES:
-                print(f"Please select at least {MIN_SAMPLES} samples.")
-                continue
+        while True:
+            try:
+                selected_indices_str = input(f"\nEnter the indices of the samples to use (comma-separated, need at least {MIN_SAMPLES}): ")
+                selected_indices = [int(idx.strip()) for idx in selected_indices_str.split(',')]
+                if len(selected_indices) < MIN_SAMPLES:
+                    print(f"Please select at least {MIN_SAMPLES} samples.")
+                    continue
 
-            active_samples = []
-            valid_selection = True
-            for idx in selected_indices:
-                if 0 <= idx < len(ggf_samples_data):
-                    active_samples.append(ggf_samples_data[idx])
-                else:
-                    print(f"Error: Index {idx} is out of range.")
-                    valid_selection = False
-                    break
-            if not valid_selection:
-                continue
-            
-            # Optional: Check if all selected samples have kt=1 if that's an assumption
-            # for a particular interpretation of "fixed kt" mode.
-            # For now, the calculate_ggf_parameters function handles kt as given.
+                active_samples = [ggf_samples_data[idx] for idx in selected_indices]
+                break
+            except Exception as e:
+                print(f"Error: {e}")
 
-            break # Exit loop if selection is valid
+        target_kl = float(input("Enter the target kl: "))
+        target_kt = float(input("Enter the target kt [default = 1.0]: ") or 1.0)
 
-        except ValueError:
-            print("Invalid input. Please enter comma-separated numbers (e.g., 0, 1, 2).")
-        except Exception as e:
-            print(f"An error occurred: {e}")
+        print(f"\nCalculating for target kl = {target_kl}, kt = {target_kt}")
+        coefficients, predicted_xs, _, _ = calculate_ggf_parameters(
+            target_kl=target_kl,
+            samples_data=active_samples,
+            target_kt=target_kt
+        )
 
-    # --- User Input for target kl ---
-    try:
-        input_kl_str = input("Enter the target kl value (e.g., 1.0, 2.0): ")
-        target_kl_input = float(input_kl_str)
-    except ValueError:
-        print("Invalid input. Please enter a numeric value for kl.")
+    elif mode == "qqhh":
+        print("\nAvailable qqHH (VBF) benchmark samples:")
+        for i, sample in enumerate(vbf_samples_data):
+            print(f"  Index {i}: CV={sample['CV']}, C2V={sample['C2V']}, kl={sample['kl']}, xs={sample['xs']:.5f} ({sample['label']})")
+
+        while True:
+            try:
+                selected_indices_str = input(f"\nEnter the indices of the VBF samples to use (at least 6): ")
+                selected_indices = [int(idx.strip()) for idx in selected_indices_str.split(',')]
+                if len(selected_indices) < 6:
+                    print("Please select at least 6 samples for VBF.")
+                    continue
+
+                active_samples = [vbf_samples_data[idx] for idx in selected_indices]
+                break
+            except Exception as e:
+                print(f"Error: {e}")
+
+        target_CV = float(input("Enter the target CV: "))
+        target_C2V = float(input("Enter the target C2V: "))
+        target_kl = float(input("Enter the target kl: "))
+
+        print(f"\nCalculating for target CV = {target_CV}, C2V = {target_C2V}, kl = {target_kl}")
+        coefficients, predicted_xs, _, _ = calculate_vbf_parameters(
+            target_CV=target_CV,
+            target_C2V=target_C2V,
+            target_kl=target_kl,
+            samples_data=active_samples
+        )
+
+    else:
+        print("Invalid mode. Please choose either 'ggf' or 'qqhh'.")
         exit()
-
-    # Assuming target_kt is 1.0 as per previous discussions for this scenario
-    target_kt_input = 1.0
-
-    print(f"\nCalculating for target kl = {target_kl_input} (with target kt = {target_kt_input})")
-    print("Using the following selected benchmark samples:")
-    for i, sample in enumerate(active_samples): # Changed to active_samples
-        print(f"  Sample {i} (Original Index {ggf_samples_data.index(sample)}): kl={sample['kl']}, kt={sample['kt']}, xs={sample['xs']:.5f} ({sample['label']})")
-    print("-" * 30)
-
-    # --- Perform Calculation ---
-    coefficients, predicted_xs, sym_coeffs, sym_xs_formula = calculate_ggf_parameters(
-        target_kl=target_kl_input,
-        samples_data=active_samples, # Pass only the selected samples
-        target_kt=target_kt_input
-    )
 
     # --- Display Results ---
     if coefficients is not None and predicted_xs is not None:
         print("\n--- Results ---")
-        print(f"Target: kl = {target_kl_input}, kt = {target_kt_input}")
-        
-        print("\nCalculated Coefficients (Weights) for each selected input sample:")
         for i, coeff in enumerate(coefficients):
-            sample_label = active_samples[i]['label'] # Use active_samples here
-            print(f"  Weight for {sample_label} (xs{i}): {coeff:.6f}")
-
-        print(f"\nPredicted Cross-Section (sigma) for target kl={target_kl_input}, kt={target_kt_input}: {predicted_xs:.6f}")
+            print(f"  Weight for {active_samples[i]['label']} (xs{i}): {coeff:.6f}")
+        print(f"\nPredicted cross-section: {predicted_xs:.6f} pb")
     else:
-        print("Calculation failed. Please check input data or matrix properties (e.g., selected samples might lead to a singular matrix if not distinct enough).")
+        print("Calculation failed.")
+
 
